@@ -1,0 +1,24 @@
+# Cargo.toml
+[package]
+name = "llama-server-launcher"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+toml = "0.8"
+serde = { version = "1.0", features = ["derive"] }
+# 移除 clap，这里不需要它来解析命令行（我们手动构建参数）
+# clap = "4.5" 
+
+# 修复：必须包含 rt-multi-thread 和 macros 才能使用 #[tokio::main] 和 select!
+tokio = { version = "1.38", features = ["process", "rt-multi-thread", "macros", "io-util"] }
+colored = "2.1"
+
+[profile.release]
+opt-level = "z"        # 以大小为目标优化（也可用 "s" 更激进）
+lto = true             # 启用链接时优化，移除未使用代码
+codegen-units = 1      # 使用单个编译单元，利于优化但增加编译时间
+strip = true           # 去除符号表，大幅减小体积
+panic = "abort"        # panic 时直接终止，不进行栈展开（减小体积）
+overflow-checks = false # 关闭整数溢出检查（提升性能，但注意潜在风险）
+debug = 0              # 不包含任何调试信息

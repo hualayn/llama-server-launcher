@@ -1,0 +1,14 @@
+# Build artifacts
+target/
+Cargo.lock
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local config (optional - keep your config.toml if needed)
+# config.toml

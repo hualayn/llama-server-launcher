@@ -3,14 +3,14 @@
 
 # 指定 llama-server.exe 的绝对路径 (Windows 示例)
 # 如果留空，程序会尝试在 PATH 中查找名为 "llama-server" 的程序
-llama_server_path = "E:\\llama-b7992-bin-win-cuda-12.4-x64\\llama-server.exe"
+llama_server_path = "path\\to\\your\\llama-server.exe"
 
 
 # 模型路径 (必填)
-model = "H:\\downloads\\Qwen3.5-35B-A3B-UD-IQ4_NL.gguf"
+model = "path\\to\\your\\model.gguf"
 
 # 投影文件路径
-mmproj = "H:\\downloads\\mmproj-BF16.gguf"
+# mmproj = "H:\\downloads\\mmproj-BF16.gguf"
 
 
 # 服务器设置
@@ -18,44 +18,40 @@ host = "0.0.0.0"
 port = 8080
 
 
-# 通用参数
+# --------------常用参数-------------------
+
 ctx_size = 72000
 n_predict = -1 # -1 表示无限
+n_gpu_layers = 99
 
+# -----------------------------------------
+
+# 对话模板参数
+chat_template_kwargs = "{\"enable_thinking\": false}"
+
+
+# 系统设置
 # threads = 8
 # threads_batch = 4
 # batch_size = 2048
 # ubatch_size = 512
 
+
+# 混合专家模型（moe）设置
 # 将 MoE 权重保留在 CPU 上
 # cpu_moe = true
-
 # 或者指定保留前 N 层在 CPU 上 (如果 cpu_moe 为 false)
 # n_cpu_moe = 15
 
 
 # GPU 设置
 # "auto" 表示自动推断，"all" 表示全部加载到 GPU，或者数字99， 表示指定层数
-n_gpu_layers = 99
 # device = "" 
 # split_mode = "layer"
-tensor_split = "5,2" # 如果有多个 GPU，例如 4090 + 3090
+# tensor_split = "3,1" # 如果有多个 GPU，例如 4090 + 3090
 
 # 主要GPU, 默认为 0
-main_gpu = 0
-
-
-# 采样设置
-# seed = -1
-temp = 0.8
-top_k = 20
-top_p = 0.95
-# min_p = 0.05
-# epeat_penalty = 1.1
-
-
-# 对话模板参数
-chat_template_kwargs = "{\"enable_thinking\": false}"
+# main_gpu = 0
 
 
 # 日志与 UI

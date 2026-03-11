@@ -30,6 +30,16 @@ n_gpu_layers = 99
 chat_template_kwargs = "{\"enable_thinking\": false}"
 
 
+# 采样设置
+# seed = -1
+temp = 0.8
+top_k = 20
+top_p = 0.95
+min_p = 0.0
+presence_penalty = 1.5
+# repeat_penalty = 1.5
+
+
 # 系统设置
 # threads = 8
 # threads_batch = 4

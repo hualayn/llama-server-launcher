@@ -1,8 +1,12 @@
 use std::process::Command;
 use tokio::io::{AsyncBufReadExt, BufReader};
 use tokio::process::Command as TokioCommand;
+use colored::*;
 
 pub async fn run_server(cmd: Command) -> Result<(), Box<dyn std::error::Error>> {
+    println!("{}", "🔥 Server output:".cyan().bold());
+    println!("{}", "─".repeat(40).white());
+    
     let mut child = TokioCommand::from(cmd)
         .stdout(std::process::Stdio::piped())
         .stderr(std::process::Stdio::piped())
@@ -18,14 +22,14 @@ pub async fn run_server(cmd: Command) -> Result<(), Box<dyn std::error::Error>> 
     let stdout_task = tokio::task::spawn(async move {
         let mut lines = stdout_reader.lines();
         while let Some(line) = lines.next_line().await.unwrap_or_else(|_| None) {
-            println!("{}", line);
+            println!("{} {}", "👀".cyan(), line);
         }
     });
 
     let stderr_task = tokio::task::spawn(async move {
         let mut lines = stderr_reader.lines();
         while let Some(line) = lines.next_line().await.unwrap_or_else(|_| None) {
-            eprintln!("{}", line);
+            eprintln!("{} {}", "👀".cyan(), line);
         }
     });
 
@@ -33,8 +37,9 @@ pub async fn run_server(cmd: Command) -> Result<(), Box<dyn std::error::Error>> 
     
     let _ = tokio::join!(stdout_task, stderr_task);
 
-    println!("--------------------------------------------------");
-    println!("Server exited with status: {:?}", status);
+    println!("{}", "─".repeat(40).white());
+    println!("\n{} Server exited with status: {:?}", "👋".red(), status);
+    println!("{} See you next time! {}\n", "🫡".cyan(), "🎉".yellow());
 
     Ok(())
 }

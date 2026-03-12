@@ -12,12 +12,16 @@ mod process;
 
 use std::env;
 use std::path::PathBuf;
+use colored::*;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    println!("{} 🦙 Llama Server Launcher", "🚀".cyan());
+    println!("{} {}", "─".repeat(30).cyan(), "─".repeat(20).yellow());
+    
     let config_path = env::args().nth(1).unwrap_or_else(|| "config.toml".to_string());
     
-    println!("Loading configuration from: {}", config_path);
+    println!("\n{} Loading config from: {}", "📂".blue(), config_path.yellow());
     
     let config = config::load_config(&config_path)?;
 
@@ -28,14 +32,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let server_path = if let Some(path) = &config.llama_server_path {
         path.clone()
     } else {
-        println!("Warning: No server path specified in config. Trying to find 'llama-server' in PATH...");
+        println!("\n{} No server path in config, searching in PATH...", "⚠️".yellow());
         PathBuf::from("llama-server")
     };
 
     let cmd = command::build_command(server_path, model_path, &config);
 
-    println!("Starting_path, model_path command: {:?}", cmd);
-    println!("--------------------------------------------------");
+    let cmd_str = format!("{:?}", cmd);
+    let cmd_clean = cmd_str.replace('"', "");
+    println!("\n{} Command:\n  {}", "🔧".green(), cmd_clean.yellow());
+    println!("{}", "─".repeat(50).white());
+    println!();
 
     process::run_server(cmd).await?;
 

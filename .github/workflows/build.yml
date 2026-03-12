@@ -2,13 +2,13 @@ name: Build Release
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
-    branches: [main]
+    branches: [master]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     
     steps:
       - name: Checkout code
@@ -20,8 +20,13 @@ jobs:
       - name: Build release
         run: cargo build --release
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+      - name: Create Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: softprops/action-gh-release@v1
         with:
-          name: llama-server-launcher
-          path: target/release/llama-server-launcher
+          tag_name: v1.0.${{ github.run_number }}
+          release_name: Llama Server Launcher v1.0.${{ github.run_number }}
+          files: target/release/llama-server-launcher.exe
+          draft: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

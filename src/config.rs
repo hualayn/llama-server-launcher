@@ -56,6 +56,8 @@ pub struct RawConfig {
     pub mmproj: Option<PathBuf>,
     pub lora: Option<LoraConfig>,
     pub chat_template_kwargs: Option<String>,
+    pub parallel: Option<i32>,
+    pub reasoning: Option<String>,
 }
 
 #[derive(Debug)]
@@ -93,6 +95,8 @@ pub struct Config {
     pub lora_file: Option<PathBuf>,
     pub lora_scaled: Vec<(PathBuf, f64)>,
     pub chat_template_kwargs: Option<String>,
+    pub parallel: Option<i32>,
+    pub reasoning: Option<String>,
 }
 
 impl From<RawConfig> for Config {
@@ -151,6 +155,8 @@ impl From<RawConfig> for Config {
             lora_file,
             lora_scaled: lora_scaled_vec,
             chat_template_kwargs: raw.chat_template_kwargs,
+            parallel: raw.parallel,
+            reasoning: raw.reasoning,
         }
     }
 }
@@ -164,7 +170,6 @@ pub fn load_config(path: &str) -> Result<Config, String> {
 
     Ok(Config::from(raw_config))
 }
-
 
 #[cfg(test)]
 mod tests {

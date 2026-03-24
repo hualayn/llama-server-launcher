@@ -126,5 +126,12 @@ pub fn build_command(server_path: PathBuf, model_path: &PathBuf, config: &Config
         cmd.arg("--lora-scaled").arg(&lora_args.join(","));
     }
 
+    if let Some(p) = config.parallel {
+        cmd.arg("-np").arg(p.to_string());
+    }
+    if let Some(r) = &config.reasoning {
+        cmd.arg("--reasoning").arg(r.clone());
+    }
+
     cmd
 }

@@ -23,6 +23,7 @@ port = 8080
 ctx_size = 72000
 n_predict = -1 # -1 表示无限
 n_gpu_layers = 99
+# reasoning = "on"
 
 # -----------------------------------------
 
@@ -62,6 +63,9 @@ presence_penalty = 1.5
 
 # 主要GPU, 默认为 0
 # main_gpu = 0
+
+# 并行计算
+# parallel = 2
 
 
 # 日志与 UI
